@@ -37,13 +37,10 @@ jobs:
       - name: Build SDL2 for iOS manually
         run: |
           SDKPATH=$(xcrun --sdk iphoneos --show-sdk-path)
-          SDL2_SRC=$(find $HOME/.cargo/git/checkouts -name "CMakeLists.txt" -path "*rust-sdl2*sdl2-sys/SDL*" 2>/dev/null | head -1 | xargs dirname)
 
-          # If not fetched yet, do a dry fetch first
-          if [ -z "$SDL2_SRC" ]; then
-            cargo fetch --target aarch64-apple-ios 2>/dev/null || true
-            SDL2_SRC=$(find $HOME/.cargo/git/checkouts -name "CMakeLists.txt" -path "*rust-sdl2*sdl2-sys/SDL*" 2>/dev/null | head -1 | xargs dirname)
-          fi
+          cargo fetch --target aarch64-apple-ios 2>/dev/null || true
+
+          SDL2_SRC=$(find $HOME/.cargo/git/checkouts -name "CMakeLists.txt" -path "*rust-sdl2*sdl2-sys/SDL/CMakeLists.txt" 2>/dev/null | head -1 | xargs dirname)
 
           echo "SDL2 source: $SDL2_SRC"
           mkdir -p /tmp/sdl2-ios-build
@@ -62,7 +59,6 @@ jobs:
 
           cmake --build /tmp/sdl2-ios-build --config Release
 
-          # Tell the sdl2-sys crate to use our pre-built SDL2
           echo "SDL2_STATIC=1" >> $GITHUB_ENV
           echo "SDL2_DIR=/tmp/sdl2-ios-build" >> $GITHUB_ENV
 
