@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "=== Patching src/lib.rs: adding iOS entry point ==="
+echo "=== Step 1: Patch src/lib.rs ==="
 cat >> src/lib.rs << 'IOSEOF'
 
 #[cfg(target_os = "ios")]
@@ -15,9 +15,23 @@ pub extern "C" fn touchHLE_ios_main() -> std::ffi::c_int {
 IOSEOF
 echo "Done."
 
-echo "=== Patching src/paths.rs: adding iOS bundle path ==="
-# Add iOS to the android cfg so path resolution works similarly
-sed -i '' 's/target_os = "android"/target_os = "android", target_os = "ios"/g' src/paths.rs
-echo "Done."
+echo "=== Step 2: Pre-fetch rust-sdl2 ==="
+cargo fetch --target aarch64-apple-ios 2>/dev/null || true
 
-echo "=== All patches applied successfully! ==="
+echo "=== Step 3: Patch rust-sdl2 build.rs sysroot ==="
+SDL2_BUILD=$(find $HOME/.cargo/git/checkouts -name "build.rs" -path "*rust-sdl2*sdl2-sys*" 2>/dev/null | grep -v "android" | head -1)
+
+if [ -z "$SDL2_BUILD" ]; then
+  echo "ERROR: Could not find rust-sdl2 build.rs!"
+  exit 1
+fi
+
+echo "Found: $SDL2_BUILD"
+SDKPATH=$(xcrun --sdk iphoneos --show-sdk-path)
+echo "iOS SDK: $SDKPATH"
+
+sed -i '' "s|define(\"CMAKE_OSX_SYSROOT\", \"/\")|define(\"CMAKE_OSX_SYSROOT\", \"$SDKPATH\")|g" "$SDL2_BUILD"
+echo "Patched!"
+grep "CMAKE_OSX_SYSROOT" "$SDL2_BUILD"
+
+echo "=== Done! ==="
