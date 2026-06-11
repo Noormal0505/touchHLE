@@ -31,7 +31,8 @@ SDKPATH=$(xcrun --sdk iphoneos --show-sdk-path)
 echo "iOS SDK: $SDKPATH"
 
 sed -i '' "s|define(\"CMAKE_OSX_SYSROOT\", \"/\")|define(\"CMAKE_OSX_SYSROOT\", \"$SDKPATH\")|g" "$SDL2_BUILD"
-echo "Patched!"
-grep "CMAKE_OSX_SYSROOT" "$SDL2_BUILD"
+echo "Patched! Result:"
+grep "CMAKE_OSX_SYSROOT" "$SDL2_BUILD" || echo "Line not found - showing surrounding context:"
+grep -n "OSX\|sysroot\|SYSROOT" "$SDL2_BUILD" || true
 
 echo "=== Done! ==="
