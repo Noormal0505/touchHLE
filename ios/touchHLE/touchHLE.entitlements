@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	    JIT entitlement.
+	    - On a free Apple ID (sideloaded via AltStore/SideStore/Scarlet),
+	      this alone is NOT enough to get JIT working.
+	    - You ALSO need StikDebug to attach as a debugger after launch.
+	    - This key signals to the OS that the app *wants* JIT.
+	-->
+	<key>com.apple.security.cs.allow-jit</key>
+	<true/>
+
+	<!--
+	    Allows the app to read/write the Documents directory.
+	    Needed so users can put .ipa files there for touchHLE to load.
+	-->
+	<key>com.apple.security.files.user-selected.read-write</key>
+	<true/>
+
+	<!--
+	    Allows dynamic code execution in general.
+	    Required alongside allow-jit for Dynarmic.
+	-->
+	<key>com.apple.security.cs.allow-dyld-environment-variables</key>
+	<true/>
+</dict>
+</plist>

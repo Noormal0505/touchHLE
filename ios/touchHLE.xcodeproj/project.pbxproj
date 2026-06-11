@@ -1,0 +1,232 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A1000001 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1000010 /* main.m */; };
+		A1000002 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1000011 /* AppDelegate.swift */; };
+		A1000003 /* libtouchHLE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A1000020 /* libtouchHLE.a */; };
+		A1000004 /* SDL2.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1000021 /* SDL2.xcframework */; settings = {ATTRIBUTES = (Required, ); }; };
+		A1000005 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1000030 /* Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A1000010 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A1000011 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		A1000020 /* libtouchHLE.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libtouchHLE.a; sourceTree = "<group>"; };
+		A1000021 /* SDL2.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = SDL2.xcframework; sourceTree = "<group>"; };
+		A1000030 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1000099 /* touchHLE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = touchHLE.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A1000050 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000003 /* libtouchHLE.a in Frameworks */,
+				A1000004 /* SDL2.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A1000060 /* touchHLE */ = {
+			isa = PBXGroup;
+			children = (
+				A1000010 /* main.m */,
+				A1000011 /* AppDelegate.swift */,
+				A1000020 /* libtouchHLE.a */,
+				A1000021 /* SDL2.xcframework */,
+				A1000030 /* Info.plist */,
+			);
+			path = touchHLE;
+			sourceTree = "<group>";
+		};
+		A1000061 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A1000099 /* touchHLE.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A1000062 /* root */ = {
+			isa = PBXGroup;
+			children = (
+				A1000060 /* touchHLE */,
+				A1000061 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A1000070 /* touchHLE */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A1000080;
+			buildPhases = (
+				A1000050 /* Frameworks */,
+				A1000051 /* Sources */,
+				A1000052 /* Resources */,
+			);
+			buildRules = ();
+			dependencies = ();
+			name = touchHLE;
+			productName = touchHLE;
+			productReference = A1000099 /* touchHLE.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A1000090 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					A1000070 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = A1000091;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A1000062;
+			productRefGroup = A1000061 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A1000070 /* touchHLE */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A1000052 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000005 /* Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A1000051 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A1000001 /* main.m in Sources */,
+				A1000002 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		A1000081 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_BITCODE = NO;
+				INFOPLIST_FILE = touchHLE/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../target/aarch64-apple-ios/release",
+				);
+				MARKETING_VERSION = 0.2.3;
+				OTHER_LDFLAGS = (
+					"-ltouchHLE",
+					"-lc++",
+					"-framework AudioToolbox",
+					"-framework AVFoundation",
+					"-framework CoreAudio",
+					"-framework CoreFoundation",
+					"-framework CoreGraphics",
+					"-framework CoreMotion",
+					"-framework OpenGLES",
+					"-framework UIKit",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = org.touchhle.touchHLE;
+				PRODUCT_NAME = touchHLE;
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = YES;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		A1000082 /* Release (Project) */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A1000080 /* Build configuration list for PBXNativeTarget "touchHLE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000081 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A1000091 /* Build configuration list for PBXProject "touchHLE" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A1000082 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = A1000090 /* Project object */;
+}
