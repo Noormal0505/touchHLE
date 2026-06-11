@@ -1,0 +1,106 @@
+name: Build touchHLE for iOS
+
+on:
+  push:
+    branches: [ main, ios-port, trunk ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios
+
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
+        with:
+          key: ios-aarch64
+
+      - name: Install Boost
+        run: brew install boost
+
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_15.4.app
+
+      - name: Apply iOS patches
+        run: bash patches/apply_ios_patches.sh
+
+      - name: Build SDL2 for iOS manually
+        run: |
+          SDKPATH=$(xcrun --sdk iphoneos --show-sdk-path)
+          SDL2_SRC=$(find $HOME/.cargo/git/checkouts -name "CMakeLists.txt" -path "*rust-sdl2*sdl2-sys/SDL*" 2>/dev/null | head -1 | xargs dirname)
+
+          # If not fetched yet, do a dry fetch first
+          if [ -z "$SDL2_SRC" ]; then
+            cargo fetch --target aarch64-apple-ios 2>/dev/null || true
+            SDL2_SRC=$(find $HOME/.cargo/git/checkouts -name "CMakeLists.txt" -path "*rust-sdl2*sdl2-sys/SDL*" 2>/dev/null | head -1 | xargs dirname)
+          fi
+
+          echo "SDL2 source: $SDL2_SRC"
+          mkdir -p /tmp/sdl2-ios-build
+
+          cmake "$SDL2_SRC" \
+            -B /tmp/sdl2-ios-build \
+            -DCMAKE_SYSTEM_NAME=iOS \
+            -DCMAKE_OSX_SYSROOT="$SDKPATH" \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=16.0 \
+            -DSDL_SHARED=OFF \
+            -DSDL_STATIC=ON \
+            -DSDL_MAIN_HANDLED=ON \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+
+          cmake --build /tmp/sdl2-ios-build --config Release
+
+          # Tell the sdl2-sys crate to use our pre-built SDL2
+          echo "SDL2_STATIC=1" >> $GITHUB_ENV
+          echo "SDL2_DIR=/tmp/sdl2-ios-build" >> $GITHUB_ENV
+
+      - name: Build Rust static library for iOS
+        env:
+          BOOST_ROOT: /opt/homebrew
+          CMAKE_POLICY_VERSION_MINIMUM: "3.5"
+        run: |
+          SDKPATH=$(xcrun --sdk iphoneos --show-sdk-path)
+          export SDKROOT="$SDKPATH"
+          cargo build \
+            --release \
+            --lib \
+            --target aarch64-apple-ios
+
+      - name: Build IPA with xcodebuild
+        run: |
+          cd ios
+          xcodebuild \
+            -project touchHLE.xcodeproj \
+            -scheme touchHLE \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath ../build/touchHLE.xcarchive \
+            CODE_SIGNING_ALLOWED=NO \
+            archive
+
+      - name: Export unsigned IPA
+        run: |
+          mkdir -p build/Payload
+          cp -r build/touchHLE.xcarchive/Products/Applications/touchHLE.app \
+                build/Payload/touchHLE.app
+          cd build
+          zip -r touchHLE-unsigned.ipa Payload/
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: touchHLE-iOS-unsigned
+          path: build/touchHLE-unsigned.ipa
+          retention-days: 30
